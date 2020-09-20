@@ -97,11 +97,14 @@ public class Loan {
     public void setTerminated(boolean terminated) {
         this.terminated = terminated;
     }
-
-    //TODO check this method if correct
+    
     public boolean extendLoan(int days){
 
-        LocalDate newLoanDate =  LocalDate.now().plusDays(days);
+        if (days > book.getMaxLoanDays()){
+            return false;
+        }
+
+        LocalDate newLoanDate =  LocalDate.now();
 
         if(book.isReserved() || isOverdue()){
             return false;

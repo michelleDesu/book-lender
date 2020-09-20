@@ -140,11 +140,20 @@ class LoanTest {
 
     @Test
     void extendLoan() {
-        LocalDate expectedDate = LocalDate.now().plusDays(5);
+        LocalDate expectedDate = LocalDate.now();
 
-        assertFalse(testObject.extendLoan(10));
+        assertFalse(testObject.extendLoan(11));
         assertTrue(testObject.extendLoan(5));
         assertEquals(expectedDate, testObject.getLoanDate());
+    }
+    @Test
+    void extendLoanFalseIsReservedAndIsOverdue() {
+
+        book.setReserved(true);
+        testLoan.setLoanDate(LocalDate.now().minusDays(11));
+        LocalDate expectedDate = LocalDate.now();
+
+        assertFalse(testObject.extendLoan(11));
     }
 
 
