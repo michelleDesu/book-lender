@@ -97,7 +97,7 @@ public class Loan {
     public void setTerminated(boolean terminated) {
         this.terminated = terminated;
     }
-    
+
     public boolean extendLoan(int days){
 
         if (days > book.getMaxLoanDays()){

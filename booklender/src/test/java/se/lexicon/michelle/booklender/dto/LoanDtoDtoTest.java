@@ -1,40 +1,42 @@
-package se.lexicon.michelle.booklender.entity;
+package se.lexicon.michelle.booklender.dto;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.lexicon.michelle.booklender.entity.Book;
+import se.lexicon.michelle.booklender.entity.LibraryUser;
+
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LoanTest {
+class LoanDtoDtoTest {
 
     private LibraryUser loanTaker;
     private Book book;
     private Book loanedBook;
 
-    private Loan testObject;
-    private Loan testLoanDto;
+    private LoanDto testObject;
+    private LoanDto testLoanDto;
 
 
     @BeforeEach
     void setUp() {
-    loanTaker = new LibraryUser(
-            LocalDate.parse("2020-01-01"),
-            "Test",
-            "Testsson@test.com"
-    );
-    book = new Book(
-            "Sample book",
-            true,
-            false,
-            10,
-            new BigDecimal("1.00"),
-            "This is a sample book"
-    );
-         loanedBook = new Book(
+        loanTaker = new LibraryUser(
+                LocalDate.parse("2020-01-01"),
+                "Test",
+                "Testsson@test.com"
+        );
+        book = new Book(
+                "Sample book",
+                true,
+                false,
+                10,
+                new BigDecimal("1.00"),
+                "This is a sample book"
+        );
+        loanedBook = new Book(
                 "Sample",
                 true,
                 true,
@@ -42,18 +44,18 @@ class LoanTest {
                 new BigDecimal("1.00"),
                 "This is a sample book");
 
-         testLoanDto = new Loan(
+        testLoanDto = new LoanDto(
                 loanTaker,
                 loanedBook,
                 LocalDate.now().minusDays(5),
                 false);
 
-    testObject = new Loan(
-            loanTaker,
-            book,
-            LocalDate.now().minusDays(5),
-            true
-    );
+        testObject = new LoanDto(
+                loanTaker,
+                book,
+                LocalDate.now().minusDays(5),
+                true
+        );
 
     }
 
@@ -70,7 +72,7 @@ class LoanTest {
                 LocalDate.parse("2020-01-01"),
                 "Testare",
                 "Testsson@test.com"
-                );
+        );
         testObject.setLoanTaker( new LibraryUser(
                 LocalDate.parse("2020-01-01"),
                 "Testare",
@@ -103,20 +105,6 @@ class LoanTest {
     }
 
     @Test
-    void isOverdue() {
-
-        assertFalse(testObject.isOverdue());
-        assertTrue(testLoanDto.isOverdue());
-    }
-
-    @Test
-    void getFine() {
-
-        BigDecimal expectedFine =  BigDecimal.valueOf(2.0).setScale(2, RoundingMode.HALF_UP);
-        assertEquals(expectedFine, testLoanDto.getFine());
-    }
-
-    @Test
     void getLoanDate() {
         LocalDate expected = LocalDate.now().minusDays(5);
 
@@ -136,43 +124,10 @@ class LoanTest {
         assertFalse(testObject.isTerminated());
     }
 
-
-
-    @Test
-    void extendLoan() {
-        LocalDate expectedDate = LocalDate.now();
-
-        assertFalse(testObject.extendLoan(11));
-        assertTrue(testObject.extendLoan(5));
-        assertEquals(expectedDate, testObject.getLoanDate());
-    }
-    @Test
-    void extendLoanFalseIsReservedAndIsOverdue() {
-
-        book.setReserved(true);
-        testLoanDto.setLoanDate(LocalDate.now().minusDays(11));
-        LocalDate expectedDate = LocalDate.now();
-
-        assertFalse(testObject.extendLoan(11));
-    }
-
-
-    @Test
-    void testToString() {
-        String expected = "Loan{" + "loanID=" + testObject.getLoanID() +
-                ", loanTaker=" + loanTaker +
-                ", book=" + book +
-                ", loanDate=" + testObject.getLoanDate() +
-                ", terminated=" + testObject.isTerminated() +
-                '}';
-
-        assertEquals(expected, testObject.toString());
-    }
-
     @Test
     public void testEquals_and_hashcode() {
         // equals and hashCode check name field value
-        Loan expected =  new Loan(
+        LoanDto expected =  new LoanDto(
                 loanTaker,
                 book,
                 LocalDate.now().minusDays(5),
@@ -182,5 +137,15 @@ class LoanTest {
         assertTrue(expected.equals(testObject) && testObject.equals(expected));
         assertEquals(expected.hashCode(), testObject.hashCode());
 
+    }
+
+    @Test
+    void testToString() {
+        String expected =  "LoanDto{" + "loanID=" + testObject.getLoanID() +
+                ", loanTaker=" + testObject.getBook() +
+                ", book=" + testObject.getBook() +
+                ", loanDate=" + testObject.getLoanDate() +
+                ", terminated=" + testObject.isTerminated() +
+                '}';
     }
 }

@@ -22,8 +22,8 @@ class LoanRepositoryTest {
     Book firstBook;
     Book secondBook;
 
-    Loan firstLoan;
-    Loan secondLoan;
+    Loan firstLoanDto;
+    Loan secondLoanDto;
 
 
     @BeforeEach
@@ -53,28 +53,28 @@ class LoanRepositoryTest {
                 "This is another sample book"
         );
 
-        firstLoan = new Loan(
+        firstLoanDto = new Loan(
                 firstUser,
                 firstBook,
                 LocalDate.now().minusDays(5),
                 false);
-        secondLoan = new Loan(
+        secondLoanDto = new Loan(
                 firstUser,
                 secondBook,
                 LocalDate.now().minusDays(5),
                 true);
 
 
-        loanRepository.save(firstLoan);
-        loanRepository.save(secondLoan);
+        loanRepository.save(firstLoanDto);
+        loanRepository.save(secondLoanDto);
     }
 
     @Test
     void findAll() {
 
         List<Loan> expected = new ArrayList<>();
-        expected.add(firstLoan);
-        expected.add(secondLoan);
+        expected.add(firstLoanDto);
+        expected.add(secondLoanDto);
 
         assertEquals(expected, loanRepository.findAll());
 
@@ -83,23 +83,23 @@ class LoanRepositoryTest {
     @Test
     void findByUserId(){
         List<Loan> expected = new ArrayList<>();
-        expected.add(firstLoan);
-        expected.add(secondLoan);
+        expected.add(firstLoanDto);
+        expected.add(secondLoanDto);
 
-        assertEquals(expected, loanRepository.findAllByLoanTaker_userId(firstLoan.getLoanTaker().getUserId()));
+        assertEquals(expected, loanRepository.findAllByLoanTaker_userId(firstLoanDto.getLoanTaker().getUserId()));
     }
 
     @Test
     void findAllByBook_bookId(){
         List<Loan> expected = new ArrayList<>();
-        expected.add(firstLoan);
-        assertEquals(expected, loanRepository.findAllByBook_bookId(firstLoan.getBook().getBookId()));
+        expected.add(firstLoanDto);
+        assertEquals(expected, loanRepository.findAllByBook_bookId(firstLoanDto.getBook().getBookId()));
     }
 
     @Test
     void findAllByIsTerminated(){
         List<Loan> expected = new ArrayList<>();
-        expected.add(secondLoan);
+        expected.add(secondLoanDto);
 
         assertEquals(expected, loanRepository.findAllByTerminated(true));
     }

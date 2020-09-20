@@ -62,7 +62,7 @@ class LibraryUserTest {
 
     @Test
     public void testEquals_and_hashcode() {
-        LibraryUser expected =  testObject =  new LibraryUser(
+        LibraryUser expected = new LibraryUser(
                 LocalDate.parse("2020-01-01"),
                 "Test",
                 "Testsson@test.com"
