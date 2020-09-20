@@ -1,32 +1,54 @@
-package se.lexicon.michelle.booklender.model;
+package se.lexicon.michelle.booklender.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
+
 import static java.time.temporal.ChronoUnit.DAYS;
 
+@Entity
 public class Loan {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long loanID;
+
+    @ManyToOne(
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     private LibraryUser loanTaker;
+
+    @ManyToOne(
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     private Book book;
+
     private LocalDate loanDate;
-    private boolean terminated;
+
+   // @Table(name="removed")
+    private boolean expired;
 
     public Loan() {
     }
 
-    public Loan(LibraryUser loanTaker, Book book, LocalDate loanDate, boolean terminated) {
+    public Loan(LibraryUser loanTaker, Book book, LocalDate loanDate, boolean expired) {
         this.loanTaker = loanTaker;
         this.book = book;
         this.loanDate = loanDate;
-        this.terminated = terminated;
+        this.expired = expired;
     }
 
     public long getLoanID() {
         return loanID;
+    }
+
+    public void setLoanDate(LocalDate loanDate) {
+        this.loanDate = loanDate;
     }
 
     public LibraryUser getLoanTaker() {
@@ -68,12 +90,12 @@ public class Loan {
         return loanDate;
     }
 
-    public boolean isTerminated() {
-        return terminated;
+    public boolean isExpired() {
+        return expired;
     }
 
-    public void setTerminated(boolean terminated) {
-        this.terminated = terminated;
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     //TODO check this method if correct
@@ -97,7 +119,7 @@ public class Loan {
         if (o == null || getClass() != o.getClass()) return false;
         Loan loan = (Loan) o;
         return loanID == loan.loanID &&
-                terminated == loan.terminated &&
+                expired == loan.expired &&
                 Objects.equals(loanTaker, loan.loanTaker) &&
                 Objects.equals(book, loan.book) &&
                 Objects.equals(loanDate, loan.loanDate);
@@ -105,7 +127,7 @@ public class Loan {
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanID, loanTaker, book, loanDate, terminated);
+        return Objects.hash(loanID, loanTaker, book, loanDate, expired);
     }
 
     @Override
@@ -114,7 +136,7 @@ public class Loan {
                 ", loanTaker=" + loanTaker +
                 ", book=" + book +
                 ", loanDate=" + loanDate +
-                ", terminated=" + terminated +
+                ", terminated=" + expired +
                 '}';
     }
 

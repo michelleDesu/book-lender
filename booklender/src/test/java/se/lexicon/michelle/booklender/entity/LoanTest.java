@@ -1,4 +1,4 @@
-package se.lexicon.michelle.booklender.model;
+package se.lexicon.michelle.booklender.entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,16 +124,16 @@ class LoanTest {
     }
 
     @Test
-    void isTerminated() {
-        assertTrue(testObject.isTerminated());
-        assertFalse(testLoan.isTerminated());
+    void isExpired() {
+        assertTrue(testObject.isExpired());
+        assertFalse(testLoan.isExpired());
 
     }
 
     @Test
-    void setTerminated(){
-        testObject.setTerminated(false);
-        assertFalse(testObject.isTerminated());
+    void setExpired(){
+        testObject.setExpired(false);
+        assertFalse(testObject.isExpired());
     }
 
 
@@ -154,7 +154,7 @@ class LoanTest {
                 ", loanTaker=" + loanTaker +
                 ", book=" + book +
                 ", loanDate=" + testObject.getLoanDate() +
-                ", terminated=" + testObject.isTerminated() +
+                ", terminated=" + testObject.isExpired() +
                 '}';
 
         assertEquals(expected, testObject.toString());
