@@ -60,9 +60,9 @@ class LoanRepositoryTest {
                 false);
         secondLoan = new Loan(
                 firstUser,
-                firstBook,
+                secondBook,
                 LocalDate.now().minusDays(5),
-                false);
+                true);
 
 
         loanRepository.save(firstLoan);
@@ -78,6 +78,30 @@ class LoanRepositoryTest {
 
         assertEquals(expected, loanRepository.findAll());
 
+    }
+
+    @Test
+    void findByUserId(){
+        List<Loan> expected = new ArrayList<>();
+        expected.add(firstLoan);
+        expected.add(secondLoan);
+
+        assertEquals(expected, loanRepository.findAllByLoanTaker_userId(firstLoan.getLoanTaker().getUserId()));
+    }
+
+    @Test
+    void findAllByBook_bookId(){
+        List<Loan> expected = new ArrayList<>();
+        expected.add(firstLoan);
+        assertEquals(expected, loanRepository.findAllByBook_bookId(firstLoan.getBook().getBookId()));
+    }
+
+    @Test
+    void findAllByIsTerminated(){
+        List<Loan> expected = new ArrayList<>();
+        expected.add(secondLoan);
+
+        assertEquals(expected, loanRepository.findAllByTerminated(true));
     }
 
 

@@ -30,17 +30,17 @@ public class Loan {
 
     private LocalDate loanDate;
 
-   // @Table(name="removed")
-    private boolean expired;
+    @Column(name="isTerminated")
+    private boolean terminated;
 
     public Loan() {
     }
 
-    public Loan(LibraryUser loanTaker, Book book, LocalDate loanDate, boolean expired) {
+    public Loan(LibraryUser loanTaker, Book book, LocalDate loanDate, boolean terminated) {
         this.loanTaker = loanTaker;
         this.book = book;
         this.loanDate = loanDate;
-        this.expired = expired;
+        this.terminated = terminated;
     }
 
     public long getLoanID() {
@@ -90,12 +90,12 @@ public class Loan {
         return loanDate;
     }
 
-    public boolean isExpired() {
-        return expired;
+    public boolean isTerminated() {
+        return terminated;
     }
 
-    public void setExpired(boolean expired) {
-        this.expired = expired;
+    public void setTerminated(boolean terminated) {
+        this.terminated = terminated;
     }
 
     //TODO check this method if correct
@@ -119,7 +119,7 @@ public class Loan {
         if (o == null || getClass() != o.getClass()) return false;
         Loan loan = (Loan) o;
         return loanID == loan.loanID &&
-                expired == loan.expired &&
+                terminated == loan.terminated &&
                 Objects.equals(loanTaker, loan.loanTaker) &&
                 Objects.equals(book, loan.book) &&
                 Objects.equals(loanDate, loan.loanDate);
@@ -127,7 +127,7 @@ public class Loan {
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanID, loanTaker, book, loanDate, expired);
+        return Objects.hash(loanID, loanTaker, book, loanDate, terminated);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class Loan {
                 ", loanTaker=" + loanTaker +
                 ", book=" + book +
                 ", loanDate=" + loanDate +
-                ", terminated=" + expired +
+                ", terminated=" + terminated +
                 '}';
     }
 

@@ -124,16 +124,16 @@ class LoanTest {
     }
 
     @Test
-    void isExpired() {
-        assertTrue(testObject.isExpired());
-        assertFalse(testLoan.isExpired());
+    void isTerminated() {
+        assertTrue(testObject.isTerminated());
+        assertFalse(testLoan.isTerminated());
 
     }
 
     @Test
-    void setExpired(){
-        testObject.setExpired(false);
-        assertFalse(testObject.isExpired());
+    void setTerminated(){
+        testObject.setTerminated(false);
+        assertFalse(testObject.isTerminated());
     }
 
 
@@ -154,7 +154,7 @@ class LoanTest {
                 ", loanTaker=" + loanTaker +
                 ", book=" + book +
                 ", loanDate=" + testObject.getLoanDate() +
-                ", terminated=" + testObject.isExpired() +
+                ", terminated=" + testObject.isTerminated() +
                 '}';
 
         assertEquals(expected, testObject.toString());
