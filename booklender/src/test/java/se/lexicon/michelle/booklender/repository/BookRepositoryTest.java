@@ -35,8 +35,8 @@ public class BookRepositoryTest {
             );
             secondBook = new Book(
                     "Second book",
-                    true,
                     false,
+                    true,
                     10,
                     new BigDecimal("1.00"),
                     "This is another sample book"
@@ -56,6 +56,33 @@ public class BookRepositoryTest {
             assertEquals(expected, bookRepository.findAll());
 
         }
+
+        @Test
+    void findByReserved(){
+
+            Book expected = firstBook;
+
+            assertEquals(expected, bookRepository.findByReserved(false));
+
+        }
+
+    @Test
+    void findByAvailable(){
+
+        Book expected = firstBook;
+
+        assertEquals(expected, bookRepository.findByAvailable(true));
+
+    }
+
+    @Test
+    void findByTitle(){
+
+        Book expected = firstBook;
+
+        assertEquals(expected, bookRepository.findByTitle("First book"));
+
+    }
 
 
 }
