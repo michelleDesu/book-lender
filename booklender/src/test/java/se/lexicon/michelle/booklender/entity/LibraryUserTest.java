@@ -34,6 +34,13 @@ class LibraryUserTest {
     }
 
     @Test
+    void setRegDate(){
+        LocalDate expected = LocalDate.parse("2020-01-02");
+        testObject.setRegDate(expected);
+        assertEquals(expected, testObject.getRegDate());
+    }
+
+    @Test
     void getName() {
         String expected = "Test";
         assertEquals(expected, testObject.getName() );
