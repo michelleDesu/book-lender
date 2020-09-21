@@ -52,6 +52,13 @@ class LibraryUserRepositoryTest {
     }
 
     @Test
+    void findByUserId(){
+        LibraryUser expected = firstUser;
+
+        assertEquals(expected, libraryUserRepository.findByUserId(firstUser.getUserId()));
+    }
+
+    @Test
     void findByEmailIgnoreCase(){
         LibraryUser expected = firstUser;
 

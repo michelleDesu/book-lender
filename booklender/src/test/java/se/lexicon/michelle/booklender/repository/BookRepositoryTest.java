@@ -58,6 +58,13 @@ public class BookRepositoryTest {
         }
 
         @Test
+        void findByBookId(){
+            Book expected = firstBook;
+
+            assertEquals(expected, bookRepository.findByBookId(firstBook.getBookId()));
+        }
+
+        @Test
     void findByReserved(){
 
             Book expected = firstBook;
