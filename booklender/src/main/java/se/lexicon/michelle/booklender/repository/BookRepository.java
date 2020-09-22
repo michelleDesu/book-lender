@@ -10,10 +10,10 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
     Book findByBookId(int BookId);
 
-    Book findByReserved(boolean reserved);
+    List<Book> findByReserved(boolean reserved);
 
-    Book findByAvailable(boolean available);
+    List<Book> findByAvailable(boolean available);
 
-    Book findByTitle(String Title);
+    List<Book> findByTitle(String Title);
 
 }

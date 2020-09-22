@@ -81,6 +81,12 @@ class LoanRepositoryTest {
     }
 
     @Test
+    void findByLoanID(){
+        Loan expected = firstLoanDto;
+        assertEquals(expected, loanRepository.findByLoanID(firstLoanDto.getLoanID()));
+    }
+
+    @Test
     void findByUserId(){
         List<Loan> expected = new ArrayList<>();
         expected.add(firstLoanDto);
