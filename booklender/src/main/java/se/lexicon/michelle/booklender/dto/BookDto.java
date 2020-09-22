@@ -12,9 +12,21 @@ public class BookDto {
     private BigDecimal finePerDay;
     private String description;
 
+    /**
+     * Default constructor
+     */
     public BookDto() {
     }
 
+    /**
+     * Constructor without id
+     * @param title String
+     * @param available boolean
+     * @param reserved boolean
+     * @param maxLoanDays int
+     * @param finePerDay BigDecimal
+     * @param description String
+     */
     public BookDto(String title, boolean available, boolean reserved, int maxLoanDays, BigDecimal finePerDay, String description) {
         this.title = title;
         this.available = available;
@@ -24,6 +36,16 @@ public class BookDto {
         this.description = description;
     }
 
+    /**
+     * Constructor with id
+     * @param bookId int
+     * @param title String
+     * @param available boolean
+     * @param reserved boolean
+     * @param maxLoanDays int
+     * @param finePerDay BigDecimal
+     * @param description String
+     */
     public BookDto(int bookId, String title, boolean available, boolean reserved, int maxLoanDays, BigDecimal finePerDay, String description) {
         this.bookId = bookId;
         this.title = title;
@@ -34,58 +56,115 @@ public class BookDto {
         this.description = description;
     }
 
+    /**
+     *
+     * @returnint
+     */
     public int getBookId() {
         return bookId;
     }
 
+    /**
+     *
+     * @return String
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     *
+     * @param title String
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     *
+     * @return boolean
+     */
     public boolean isAvailable() {
         return available;
     }
 
+    /**
+     *
+     * @param available boolean
+     */
     public void setAvailable(boolean available) {
         this.available = available;
     }
 
+    /**
+     *
+     * @return boolean
+     */
     public boolean isReserved() {
         return reserved;
     }
 
+    /**
+     *
+     * @param reserved boolean
+     */
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
     }
 
+    /**
+     *
+     * @return int
+     */
     public int getMaxLoanDays() {
         return maxLoanDays;
     }
 
+    /**
+     *
+     * @param maxLoanDays int
+     */
     public void setMaxLoanDays(int maxLoanDays) {
         this.maxLoanDays = maxLoanDays;
     }
 
+    /**
+     *
+     * @return BigDecimal
+     */
     public BigDecimal getFinePerDay() {
         return finePerDay;
     }
 
+    /**
+     *
+     * @param finePerDay BigDecimal
+     */
     public void setFinePerDay(BigDecimal finePerDay) {
         this.finePerDay = finePerDay;
     }
 
+    /**
+     *
+     * @return String
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description String
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @param o Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,11 +179,19 @@ public class BookDto {
                 Objects.equals(description, bookDto.description);
     }
 
+    /**
+     *
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(bookId, title, available, reserved, maxLoanDays, finePerDay, description);
     }
 
+    /**
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "BookDto{" + "bookId=" + bookId +

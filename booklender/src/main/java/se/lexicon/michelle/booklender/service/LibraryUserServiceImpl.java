@@ -16,11 +16,21 @@ public class LibraryUserServiceImpl implements LibraryUserService {
 
     LibraryUserRepository userRepository;
 
+    /**
+     * constructor
+     * @param userRepository LibraryUserRepository
+     */
     @Autowired
     public LibraryUserServiceImpl(LibraryUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+
+    /**
+     * convert libraryUser To LibraryUserDto
+     * @param libraryUser LibraryUser
+     * @return LibraryUserDto
+     */
     protected LibraryUserDto convertToLibraryUserDto(LibraryUser libraryUser){
         return new LibraryUserDto(
                 libraryUser.getUserId(),
@@ -30,6 +40,11 @@ public class LibraryUserServiceImpl implements LibraryUserService {
         );
     }
 
+    /**
+     * convert a list of LibraryUsers To List Of LibraryUserDtos
+     * @param users List<LibraryUser>
+     * @return List<LibraryUserDto>
+     */
     protected List<LibraryUserDto> convertToListOfLibraryUserDtos(List<LibraryUser> users){
         List<LibraryUserDto> userDtos =  new ArrayList<>();
 
@@ -41,18 +56,32 @@ public class LibraryUserServiceImpl implements LibraryUserService {
         return userDtos;
     }
 
+    /**
+     * find By Id
+     * @param userId int
+     * @return LibraryUserDto
+     */
     @Override
     public LibraryUserDto findById(int userId) {
         LibraryUser user = userRepository.findByUserId(userId);
         return convertToLibraryUserDto(user);
     }
 
+    /**
+     * find By Email
+     * @param email String
+     * @return LibraryUserDto
+     */
     @Override
     public LibraryUserDto findByEmail(String email) {
         LibraryUser user = userRepository.findByEmailIgnoreCase(email);
         return convertToLibraryUserDto(user);
     }
 
+    /**
+     * find All
+     * @return List<LibraryUserDto>
+     */
     @Override
     public List<LibraryUserDto> findAll() {
         List<LibraryUser> foundItems = userRepository.findAll();
@@ -60,6 +89,11 @@ public class LibraryUserServiceImpl implements LibraryUserService {
         return convertToListOfLibraryUserDtos(foundItems);
     }
 
+    /**
+     * create a user
+     * @param userDto LibraryUserDto
+     * @return LibraryUserDto
+     */
     @Override
     @Transactional
     public LibraryUserDto create(LibraryUserDto userDto) {
@@ -79,6 +113,11 @@ public class LibraryUserServiceImpl implements LibraryUserService {
         return convertToLibraryUserDto(userRepository.save(user));
     }
 
+    /**
+     * update a library user
+     * @param userDto LibraryUserDto
+     * @return LibraryUserDto
+     */
     @Override
     @Transactional
     public LibraryUserDto update(LibraryUserDto userDto) {
@@ -101,6 +140,11 @@ public class LibraryUserServiceImpl implements LibraryUserService {
 
     }
 
+    /**
+     * delete a user
+     * @param userId int
+     * @return boolean
+     */
     @Override
     @Transactional
     public boolean delete(int userId) {

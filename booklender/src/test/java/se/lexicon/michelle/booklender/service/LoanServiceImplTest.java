@@ -147,8 +147,8 @@ class LoanServiceImplTest {
     @Test
     void findByTerminated() {
         List<LoanDto> expected = new ArrayList<>();
-        expected.add(firstLoanDto);
-        assertEquals(expected, loanService.findByUserId(firstLoanDto.getLoanTaker().getUserId()));
+        expected.add(secondLoanDto);
+        assertEquals(expected, loanService.findByTerminated());
 
     }
 

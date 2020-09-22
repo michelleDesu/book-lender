@@ -1,6 +1,7 @@
 package se.lexicon.michelle.booklender.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.michelle.booklender.dto.LoanDto;
 import se.lexicon.michelle.booklender.entity.Loan;
 import se.lexicon.michelle.booklender.repository.BookRepository;
@@ -15,6 +16,12 @@ public class LoanServiceImpl implements LoanService{
     LibraryUserRepository userRepository;
     BookRepository bookRepository;
 
+    /**
+     * constructor
+     * @param loanRepository LoanRepository
+     * @param userRepository LibraryUserRepository
+     * @param bookRepository BookRepository
+     */
     @Autowired
     public LoanServiceImpl(LoanRepository loanRepository, LibraryUserRepository userRepository, BookRepository bookRepository) {
         this.loanRepository = loanRepository;
@@ -22,6 +29,11 @@ public class LoanServiceImpl implements LoanService{
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * converts a loan to a ToLoanDto
+     * @param loan Loan
+     * @return LoanDto
+     */
     protected LoanDto convertToLoanDto(Loan loan){
         return new LoanDto(
                 loan.getLoanID(),
@@ -33,6 +45,11 @@ public class LoanServiceImpl implements LoanService{
 
     }
 
+    /**
+     * convert a list of loans To List Of LoanDto
+     * @param loanList List<Loan>
+     * @return List<LoanDto>
+     */
     protected List<LoanDto> convertToListOfLoanDto(List<Loan> loanList){
         List<LoanDto> loanDtoList = new ArrayList<>();
 
@@ -44,6 +61,11 @@ public class LoanServiceImpl implements LoanService{
         return loanDtoList;
     }
 
+    /**
+     * find By Id
+     * @param loanId long
+     * @return LoanDto
+     */
     @Override
     public LoanDto findById(long loanId) {
         Loan loan = loanRepository.findByLoanID(loanId);
@@ -51,31 +73,55 @@ public class LoanServiceImpl implements LoanService{
         return convertToLoanDto(loan);
     }
 
+    /**
+     * find By Book Id
+     * @param bookId int
+     * @return List<LoanDto>
+     */
     @Override
     public List<LoanDto> findByBookId(int bookId) {
         List<Loan> loans = loanRepository.findAllByBook_bookId(bookId);
         return convertToListOfLoanDto(loans);
     }
 
+    /**
+     * find By User Id
+     * @param userId int
+     * @return  List<LoanDto>
+     */
     @Override
     public List<LoanDto> findByUserId(int userId) {
         List<Loan> loans = loanRepository.findAllByLoanTaker_userId(userId);
         return convertToListOfLoanDto(loans);
     }
 
+    /**
+     * find By Terminated
+     * @return List<LoanDto>
+     */
     @Override
     public List<LoanDto> findByTerminated() {
         List<Loan> loans = loanRepository.findAllByTerminated(true);
         return convertToListOfLoanDto(loans);
     }
 
+    /**
+     * find All
+     * @return List<LoanDto>
+     */
     @Override
     public List<LoanDto> findAll() {
         List<Loan> loans = loanRepository.findAll();
         return convertToListOfLoanDto(loans);
     }
 
+    /**
+     * create a loan
+     * @param loanDto LoanDto
+     * @return LoanDto
+     */
     @Override
+    @Transactional
     public LoanDto create(LoanDto loanDto) {
         //TODO insert exception here
         if(loanDto == null){
@@ -91,7 +137,13 @@ public class LoanServiceImpl implements LoanService{
         return convertToLoanDto(loanRepository.save(loan));
     }
 
+    /**
+     * update an existing loan
+     * @param loanDto LoanDto
+     * @return LoanDto
+     */
     @Override
+    @Transactional
     public LoanDto update(LoanDto loanDto) {
         //TODO insert exception here
         if(loanDto == null){
@@ -108,7 +160,13 @@ public class LoanServiceImpl implements LoanService{
         return convertToLoanDto(updatedLoan);
     }
 
+    /**
+     * delete an existing loan
+     * @param loanId long
+     * @return boolean
+     */
     @Override
+    @Transactional
     public boolean delete(long loanId) {
         //TODO insert exception here
 

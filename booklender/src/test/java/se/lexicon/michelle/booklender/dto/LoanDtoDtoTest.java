@@ -90,6 +90,13 @@ class LoanDtoDtoTest {
     }
 
     @Test
+    void setLoanDate(){
+        LocalDate expectedLoanDate =   LocalDate.now();
+        testLoanDto.setLoanDate(expectedLoanDate);
+        assertEquals(expectedLoanDate, testLoanDto.getLoanDate());
+    }
+
+    @Test
     void setBook() {
         Book expected = new Book(
                 "Sample",
