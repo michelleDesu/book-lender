@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class BookServiceImplTest {
 
-    BookServiceImpl bookService;
-    BookDto firstBookDto;
-    BookDto secondBookDto;
+    private BookServiceImpl bookService;
+    private BookDto firstBookDto;
+    private BookDto secondBookDto;
 
     @Autowired
     BookRepository bookRepository;
@@ -107,6 +107,7 @@ class BookServiceImplTest {
                 "This is a sample book"
         );
         expected = bookService.create(expected);
+        assertEquals(expected, bookService.findById(expected.getBookId()));
     }
 
     @Test

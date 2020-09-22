@@ -43,6 +43,14 @@ public class Loan {
         this.terminated = terminated;
     }
 
+    public Loan(long loanID, LibraryUser loanTaker, Book book, LocalDate loanDate, boolean terminated) {
+        this.loanID = loanID;
+        this.loanTaker = loanTaker;
+        this.book = book;
+        this.loanDate = loanDate;
+        this.terminated = terminated;
+    }
+
     public long getLoanID() {
         return loanID;
     }
