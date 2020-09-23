@@ -1,15 +1,27 @@
 package se.lexicon.michelle.booklender.dto;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class BookDto {
+    @Null(message = "Book id should not be present")
     private int bookId;
+
+    @NotBlank(message = "Title is obligatory")
+    @Size(min = 2, max = 255)
     private String title;
+
     private boolean available;
     private boolean reserved;
+
+    @Positive(message = "max loan days should be 1 or more days")
     private int maxLoanDays;
+    @PositiveOrZero
     private BigDecimal finePerDay;
+
+    @NotBlank(message = "description is obligatory")
+    @Size(min = 2)
     private String description;
 
     /**
@@ -58,7 +70,7 @@ public class BookDto {
 
     /**
      *
-     * @returnint
+     * @return int
      */
     public int getBookId() {
         return bookId;

@@ -1,14 +1,25 @@
 package se.lexicon.michelle.booklender.dto;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class LibraryUserDto {
 
+    public static final String EMAIL_PATTERN = "^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$";
 
+    @Null (message = "Loan id should not be present.")
     private int userId;
+
+    @PastOrPresent(message = "A registration date cannot be in the future")
     private LocalDate regDate;
+
+    @NotBlank(message = "Name is obligatory")
+    @Size(min = 2, max = 100)
     private String name;
+
+    @NotBlank(message = "email is obligatory")
+    @Email(regexp = EMAIL_PATTERN)
     private String email;
 
     /**

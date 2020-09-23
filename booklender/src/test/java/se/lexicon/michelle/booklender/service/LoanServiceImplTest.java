@@ -148,7 +148,7 @@ class LoanServiceImplTest {
     void findByTerminated() {
         List<LoanDto> expected = new ArrayList<>();
         expected.add(secondLoanDto);
-        assertEquals(expected, loanService.findByTerminated());
+        assertEquals(expected, loanService.findByTerminated(true));
 
     }
 

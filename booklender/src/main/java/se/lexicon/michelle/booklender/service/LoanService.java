@@ -30,7 +30,7 @@ public interface LoanService {
      * findByTerminated
      * @return List<LoanDto>
      */
-    List<LoanDto> findByTerminated();
+    List<LoanDto> findByTerminated(boolean terminated);
 
     /**
      * find All

@@ -1,6 +1,7 @@
 package se.lexicon.michelle.booklender.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.michelle.booklender.dto.LoanDto;
 import se.lexicon.michelle.booklender.entity.Loan;
@@ -11,6 +12,7 @@ import se.lexicon.michelle.booklender.repository.LoanRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class LoanServiceImpl implements LoanService{
     LoanRepository loanRepository;
     LibraryUserRepository userRepository;
@@ -106,8 +108,8 @@ public class LoanServiceImpl implements LoanService{
      * @return List<LoanDto>
      */
     @Override
-    public List<LoanDto> findByTerminated() {
-        List<Loan> loans = loanRepository.findAllByTerminated(true);
+    public List<LoanDto> findByTerminated(boolean terminated) {
+        List<Loan> loans = loanRepository.findAllByTerminated(terminated);
         return convertToListOfLoanDto(loans);
     }
 
