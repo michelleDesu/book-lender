@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.michelle.booklender.dto.BookDto;
 import se.lexicon.michelle.booklender.entity.Book;
+import se.lexicon.michelle.booklender.exceptions.ResourceNotFoundException;
 import se.lexicon.michelle.booklender.repository.BookRepository;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class BookServiceImpl implements BookService{
      */
     @Override
     public BookDto findById(int bookId) {
-        Book book = bookRepository.findByBookId(bookId);
+        Book book = bookRepository.findById(bookId).orElseThrow(()-> new ResourceNotFoundException("Cannot find book with the id: " + bookId));
         return convertToBookDto(book);
     }
 
@@ -124,10 +125,9 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public BookDto create(BookDto bookDto) {
-        //TODO insert exception here
-    if(bookDto == null){
-        return null;
-    }
+
+    if(bookDto == null)throw new ResourceNotFoundException("There is no bookDto object");
+        if(bookDto.getBookId() != 0) throw new ResourceNotFoundException("Could NOT create a loan where the ID is specified");
     Book book = new Book(
             bookDto.getBookId(),
             bookDto.getTitle(),
@@ -148,18 +148,16 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public BookDto update(BookDto bookDto) {
-        //TODO insert exception here
-        if(bookDto == null){
-            return null;
-        }
+
+        if(bookDto == null)throw new ResourceNotFoundException("There is no bookDto object");
         Book book = bookRepository.findByBookId(bookDto.getBookId());
 
         book.setTitle(bookDto.getTitle());
         book.setAvailable(bookDto.isAvailable());
         book.setReserved(bookDto.isReserved());
-        bookDto.setMaxLoanDays(bookDto.getMaxLoanDays());
-        bookDto.setFinePerDay(bookDto.getFinePerDay());
-        bookDto.setDescription(bookDto.getDescription());
+        book.setMaxLoanDays(bookDto.getMaxLoanDays());
+        book.setFinePerDay(bookDto.getFinePerDay());
+        book.setDescription(bookDto.getDescription());
 
         book = bookRepository.save(book);
         return convertToBookDto(book);
@@ -174,12 +172,13 @@ public class BookServiceImpl implements BookService{
     @Transactional
     public boolean delete(int bookId) {
 
-        //TODO insert exception here
-        boolean isDeleted = false;
+
         if(bookRepository.existsById(bookId)){
             bookRepository.delete(bookRepository.findByBookId(bookId));
-            isDeleted = true;
+            return true;
+        }else{
+            throw new ResourceNotFoundException("There is no bookDto object");
         }
-        return isDeleted;
+
     }
 }

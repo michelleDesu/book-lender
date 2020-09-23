@@ -115,18 +115,8 @@ public class BookController {
         if(bookDto.getBookId() == 0){
             throw new IllegalArgumentException("ID does not exist.");
         }
-        BookDto original = bookService.findById(bookDto.getBookId());
 
-        original.setTitle(bookDto.getTitle());
-        original.setAvailable(bookDto.isAvailable());
-        original.setReserved(bookDto.isReserved());
-        original.setMaxLoanDays(bookDto.getMaxLoanDays());
-        original.setFinePerDay(bookDto.getFinePerDay());
-        original.setDescription(bookDto.getDescription());
-
-        original = bookService.update(original);
-
-        return ResponseEntity.ok(original);
+        return ResponseEntity.ok(bookService.update(bookDto));
     }
 
 

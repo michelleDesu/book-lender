@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.michelle.booklender.dto.LoanDto;
 import se.lexicon.michelle.booklender.entity.Loan;
+import se.lexicon.michelle.booklender.exceptions.ResourceNotFoundException;
 import se.lexicon.michelle.booklender.repository.BookRepository;
 import se.lexicon.michelle.booklender.repository.LibraryUserRepository;
 import se.lexicon.michelle.booklender.repository.LoanRepository;
@@ -76,7 +77,7 @@ public class LoanServiceImpl implements LoanService{
      */
     @Override
     public LoanDto findById(long loanId) {
-        Loan loan = loanRepository.findByLoanID(loanId);
+        Loan loan = loanRepository.findById(loanId).orElseThrow(()-> new ResourceNotFoundException("Cannot find the loan with id: " + loanId));
 
         return convertToLoanDto(loan);
     }
@@ -131,10 +132,7 @@ public class LoanServiceImpl implements LoanService{
     @Override
     @Transactional
     public LoanDto create(LoanDto loanDto) {
-        //TODO insert exception here
-        if(loanDto == null){
-
-        }
+        if(loanDto == null)throw new ResourceNotFoundException("There is no loanDto object");
         Loan loan = new Loan(
                 loanDto.getLoanID(),
                 loanDto.getLoanTaker(),
@@ -153,10 +151,9 @@ public class LoanServiceImpl implements LoanService{
     @Override
     @Transactional
     public LoanDto update(LoanDto loanDto) {
-        //TODO insert exception here
-        if(loanDto == null){
 
-        }
+        if(loanDto == null)throw new ResourceNotFoundException("There is no loanDto object");
+        if(loanDto.getLoanID() != 0) throw new ResourceNotFoundException("Could NOT create a loan where the ID is specified");
         Loan updatedLoan = loanRepository.findByLoanID(loanDto.getLoanID());
 
         updatedLoan.setLoanTaker(loanDto.getLoanTaker());
@@ -176,13 +173,12 @@ public class LoanServiceImpl implements LoanService{
     @Override
     @Transactional
     public boolean delete(long loanId) {
-        //TODO insert exception here
 
-        boolean isDeleted = false;
         if (loanRepository.existsById(loanId)){
             loanRepository.delete(loanRepository.findByLoanID(loanId));
-            isDeleted = true;
+            return true;
+        } else{
+            throw new ResourceNotFoundException("There is no loanDto object");
         }
-        return isDeleted;
     }
 }

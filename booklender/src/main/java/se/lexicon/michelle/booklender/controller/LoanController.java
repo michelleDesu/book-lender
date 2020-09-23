@@ -99,8 +99,8 @@ public class LoanController {
         if(loanDto.getLoanID() != 0){
             throw  new IllegalArgumentException("ID is present, not allowed.");
         }
-        LoanDto createdBook = loanService.create(loanDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
+        LoanDto createdLoan = loanService.create(loanDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdLoan);
     }
 
 
@@ -109,22 +109,14 @@ public class LoanController {
      * @param loanDto LoanDto
      * @return ResponseEntity
      */
-     @PutMapping//("/loans")
+     @PutMapping
     public ResponseEntity<LoanDto> update(@RequestBody LoanDto loanDto){
 
         if(loanDto.getLoanID() == 0){
             throw new IllegalArgumentException("ID does not exist.");
         }
-        LoanDto original = loanService.findById(loanDto.getLoanID());
 
-         original.setLoanTaker(loanDto.getLoanTaker());
-         original.setBook(loanDto.getBook());
-         original.setLoanDate(loanDto.getLoanDate());
-         original.setTerminated(loanDto.isTerminated());
-
-        original =loanService.update(original);
-
-        return ResponseEntity.ok(original);
+        return ResponseEntity.ok(loanService.update(loanDto));
     }
 
 

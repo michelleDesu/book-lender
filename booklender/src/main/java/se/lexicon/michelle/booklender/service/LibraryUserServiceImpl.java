@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.michelle.booklender.dto.LibraryUserDto;
 import se.lexicon.michelle.booklender.entity.LibraryUser;
+import se.lexicon.michelle.booklender.exceptions.ResourceNotFoundException;
 import se.lexicon.michelle.booklender.repository.LibraryUserRepository;
 
 
@@ -69,7 +70,8 @@ public class LibraryUserServiceImpl implements LibraryUserService {
      */
     @Override
     public LibraryUserDto findById(int userId) {
-        LibraryUser user = userRepository.findByUserId(userId);
+        LibraryUser user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("Cannot find book with the id: " + userId));
+
         return convertToLibraryUserDto(user);
     }
 
@@ -104,10 +106,8 @@ public class LibraryUserServiceImpl implements LibraryUserService {
     @Transactional
     public LibraryUserDto create(LibraryUserDto userDto) {
 
-        //TODO insert exception here
-        if(userDto == null){
-            return null;
-        }
+        if(userDto == null)throw new ResourceNotFoundException("There is no LibraryUserDto object");
+
        LibraryUser user = new LibraryUser(
                userDto.getUserId(),
                userDto.getRegDate(),
@@ -128,10 +128,7 @@ public class LibraryUserServiceImpl implements LibraryUserService {
     @Transactional
     public LibraryUserDto update(LibraryUserDto userDto) {
 
-        //Todo insert thrown exception here
-        if(userDto == null){
-            return null;
-        }
+        if(userDto == null)throw new ResourceNotFoundException("There is no LibraryUserDto object");
 
         LibraryUser user =  userRepository.findByUserId(userDto.getUserId());
         user.setRegDate(userDto.getRegDate());
@@ -140,8 +137,6 @@ public class LibraryUserServiceImpl implements LibraryUserService {
 
         user = userRepository.save(user);
 
-
-        //Todo return userDto instead?
         return convertToLibraryUserDto(user);
 
     }
@@ -155,13 +150,14 @@ public class LibraryUserServiceImpl implements LibraryUserService {
     @Transactional
     public boolean delete(int userId) {
 
-        //Todo add throw exception here
-        boolean deleted = false;
+
+
         if(userRepository.existsById(userId)){
             userRepository.delete(userRepository.findByUserId(userId) );
-            deleted = true;
+            return true;
+        } else{
+            throw new ResourceNotFoundException("There is no LibraryUserDto object");
         }
 
-        return deleted;
     }
 }

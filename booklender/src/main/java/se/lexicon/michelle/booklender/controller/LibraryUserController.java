@@ -47,7 +47,7 @@ public class LibraryUserController {
      * @return ResponseEntity<LibraryUserDto>
      */
     //Todo check the path
-    @GetMapping("users/email/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<LibraryUserDto> findByEmail(@Valid @PathVariable String email){
 
         LibraryUserDto found = userService.findByEmail(email);
@@ -91,19 +91,13 @@ public class LibraryUserController {
      * @param userDto LibraryUserDto
      * @return ResponseEntity<LibraryUserDto>
      */
-    @PutMapping("/users")
+    @PutMapping()
     public ResponseEntity<LibraryUserDto> update(@Valid @RequestBody LibraryUserDto userDto){
         if(userDto.getUserId() == 0){
             throw new IllegalArgumentException("ID does not exist.");
         }
-        LibraryUserDto original = userService.findById(userDto.getUserId()); //.orElseThrow(()-> new ResourceNotFoundException("Could not find user with ID: " + userId));
-        original.setRegDate(userDto.getRegDate());
-        original.setName(userDto.getName());
-        original.setEmail(userDto.getEmail() );
 
-        original = userService.update(original);
-
-        return ResponseEntity.ok(original);
+        return ResponseEntity.ok(userService.update(userDto));
     }
 
     /**
