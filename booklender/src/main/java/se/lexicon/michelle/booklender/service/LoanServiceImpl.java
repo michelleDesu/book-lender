@@ -35,6 +35,9 @@ public class LoanServiceImpl implements LoanService{
      * @return LoanDto
      */
     protected LoanDto convertToLoanDto(Loan loan){
+        if(loan == null){
+            return null;
+        }
         return new LoanDto(
                 loan.getLoanID(),
                 loan.getLoanTaker(),
@@ -51,6 +54,9 @@ public class LoanServiceImpl implements LoanService{
      * @return List<LoanDto>
      */
     protected List<LoanDto> convertToListOfLoanDto(List<Loan> loanList){
+        if(loanList == null){
+            return null;
+        }
         List<LoanDto> loanDtoList = new ArrayList<>();
 
         for (Loan loan : loanList){

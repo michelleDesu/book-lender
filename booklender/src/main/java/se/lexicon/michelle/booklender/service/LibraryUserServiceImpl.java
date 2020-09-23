@@ -32,6 +32,9 @@ public class LibraryUserServiceImpl implements LibraryUserService {
      * @return LibraryUserDto
      */
     protected LibraryUserDto convertToLibraryUserDto(LibraryUser libraryUser){
+        if(libraryUser == null){
+            return null;
+        }
         return new LibraryUserDto(
                 libraryUser.getUserId(),
                 libraryUser.getRegDate(),
@@ -46,6 +49,9 @@ public class LibraryUserServiceImpl implements LibraryUserService {
      * @return List<LibraryUserDto>
      */
     protected List<LibraryUserDto> convertToListOfLibraryUserDtos(List<LibraryUser> users){
+        if(users == null){
+            return null;
+        }
         List<LibraryUserDto> userDtos =  new ArrayList<>();
 
         for (LibraryUser user : users){

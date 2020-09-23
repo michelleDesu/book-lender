@@ -31,6 +31,10 @@ public class BookServiceImpl implements BookService{
      * @return BookDto
      */
     protected BookDto convertToBookDto(Book book){
+
+        if (book == null){
+            return null;
+        }
      return new BookDto(
                 book.getBookId(),
                 book.getTitle(),
@@ -48,6 +52,10 @@ public class BookServiceImpl implements BookService{
      * @return List<BookDto>
      */
     protected List<BookDto> convertToListOfBookDtos(List<Book> books){
+        if (books == null){
+            return null;
+        }
+
         List<BookDto> bookDtoList = new ArrayList<>();
 
         for(Book book : books){
